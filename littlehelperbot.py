@@ -7,9 +7,23 @@ import requests
 
 from littlehelper_config import *
 
-reddit = praw.Reddit(user_agent = USER_AGENT)
-reddit.login(REDDIT_USERNAME, REDDIT_PASS)
-comment_stream = praw.helpers.comment_stream(reddit, "all", verbosity=1)
+
+def start():
+        reddit = praw.Reddit(user_agent = USER_AGENT)
+        reddit.login(REDDIT_USERNAME, REDDIT_PASS)
+        comment_stream = praw.helpers.comment_stream(reddit, "all", verbosity=1)
+        n = 0
+        for comment in comment_stream:
+                n += 1
+                if not n % 1000:
+                        print n
+
+                if comment.body.lower().find("m.wikipedia.org") != -1 or \
+                   comment.body.lower().find("amazon.com/gp/aw/d") != -1 or \
+                   comment.body.lower().find("m.facebook.com") != -1:
+                        got_one(comment)
+
+
 
 def demobile(expression, substitute, href, text):
 	new_href = re.sub(expression, substitute, href)
@@ -82,13 +96,5 @@ def got_one(comment):
 		except requests.exceptions.HTTPError as e:
 			print "Looks like we are banned here"
 
-n = 0
-for comment in comment_stream:
-	n += 1
-	if not n % 1000:
-		print n
-
-	if comment.body.lower().find("m.wikipedia.org") != -1 or \
-		comment.body.lower().find("amazon.com/gp/aw/d") != -1 or \
-		comment.body.lower().find("m.facebook.com") != -1:
-		got_one(comment)
+if __name__ == "__main__":
+        start()
