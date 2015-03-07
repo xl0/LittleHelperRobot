@@ -69,7 +69,7 @@ def got_one(comment):
 			for link in links:
 				text += " * [%s](%s)\n" % (link)
 			text += "\n"
-		text += "^That's ^why ^I'm ^here, ^I ^don't ^judge ^you. ^PM ^/u/xl0 ^if ^I'm ^causing ^any ^trouble. [^WUT?](http://www.reddit.com/r/LittleHelperRobot/comments/2y0irt/whats_this_about/)"
+		text += "^That's ^why ^I'm ^here, ^I ^don't ^judge ^you. ^PM ^/u/xl0 ^if ^I'm ^causing ^any ^trouble. [^WUT?](https://github.com/xl0/LittleHelperRobot/wiki/What's-this-all-about%3F)"
 
 		print "I'm commenting:\n", text.encode('utf-8')
 		try:
