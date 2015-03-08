@@ -7,6 +7,7 @@ import requests
 
 from littlehelper_config import *
 
+websites = [("m.wikipedia.org","wikipedia.org"),("m.facebook.com", "facebook.com"),("amazon.com/gp/aw/d/","amazon.com/db" )];
 
 def start():
         reddit = praw.Reddit(user_agent = USER_AGENT)
@@ -18,10 +19,9 @@ def start():
                 if not n % 1000:
                         print n
 
-                if comment.body.lower().find("m.wikipedia.org") != -1 or \
-                   comment.body.lower().find("amazon.com/gp/aw/d") != -1 or \
-                   comment.body.lower().find("m.facebook.com") != -1:
-                        got_one(comment)
+                for website in websites:
+                        if comment.body.lower().find(website[0]) != -1:
+                                got_one(comment);
 
 
 
@@ -57,23 +57,13 @@ def got_one(comment):
 	for link in soup.find_all('a'):
 		href = link.get('href')
 		text = link.text
-		if href.find("m.wikipedia.org") != -1:
-			new_text, new_href = demobile("m.wikipedia.org", "wikipedia.org", href, text)
-			links.append((new_text, new_href))
-			print ">>>>> %s %s -> %s %s" % (href.encode('utf-8'), text.encode('utf-8'),
-				new_href.encode('utf-8'), new_text.encode('utf-8'))
 
-		if href.find("m.facebook.com") != -1:
-			new_text, new_href = demobile("m.facebook.com", "facebook.com", href, text)
-			links.append((new_text, new_href))
-			print ">>>>> %s %s -> %s %s" % (href.encode('utf-8'), text.encode('utf-8'),
-				new_href.encode('utf-8'), new_text.encode('utf-8'))
-
-		if href.find('amazon.com/gp/aw/d') != -1:
-			new_text, new_href = demobile("amazon.com/gp/aw/d/", "amazon.com/dp/", href, text)
-			links.append((new_text, new_href))
-			print ">>>>> %s %s -> %s %s" % (href.encode('utf-8'), text.encode('utf-8'),
-				new_href.encode('utf-8'), new_text.encode('utf-8'))
+                for website in websites:
+                        if href.find(website[0]) != -1:
+                                new_text, new_href = demobile(website[0],website[1] , href, text)
+                                links.append((new_text, new_href))
+                                print ">>>>> %s %s -> %s %s" % (href.encode('utf-8'), text.encode('utf-8'),
+                                        new_href.encode('utf-8'), new_text.encode('utf-8'))
 
 	if comment.author.name != "LittleHelperRobot" and len(links) > 0:
 		if len(links) == 1:
