@@ -7,7 +7,7 @@ import requests
 
 from littlehelper_config import *
 
-websites = [("m.wikipedia.org","wikipedia.org"),("m.facebook.com", "facebook.com"),("amazon.com/gp/aw/d/","amazon.com/db/" )];
+websites = [("m.wikipedia.org","wikipedia.org"),("m.facebook.com", "facebook.com"),("amazon.com/gp/aw/d/","amazon.com/dp/" )];
 
 def start():
         reddit = praw.Reddit(user_agent = USER_AGENT)
