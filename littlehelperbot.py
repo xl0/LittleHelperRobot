@@ -7,7 +7,10 @@ import requests
 
 from littlehelper_config import *
 
-websites = [("m.wikipedia.org","wikipedia.org"),("m.facebook.com", "facebook.com"),("amazon.com/gp/aw/d/","amazon.com/dp/" )];
+websites = [("m.wikipedia.org","wikipedia.org"),
+	("m.facebook.com", "facebook.com"),
+	("amazon.com/gp/aw/d/","amazon.com/dp/")];
+
 
 def start():
         reddit = praw.Reddit(user_agent = USER_AGENT)
@@ -61,17 +64,23 @@ def got_one(comment):
                 for website in websites:
                         if href.find(website[0]) != -1:
                                 new_text, new_href = demobile(website[0],website[1] , href, text)
-                                links.append((new_text, new_href))
+                                links.append({'text' : new_text, 'href' : new_href})
                                 print ">>>>> %s %s -> %s %s" % (href.encode('utf-8'), text.encode('utf-8'),
                                         new_href.encode('utf-8'), new_text.encode('utf-8'))
 
 	if comment.author.name != "LittleHelperRobot" and len(links) > 0:
 		if len(links) == 1:
-			text = "Non-mobile: [%s](%s)\n\n" % links[0]
+			if links[0]['text'] == links[0]['href'] and links[0]['href'][0:4] == 'http':
+				text = "Non-mobile: %s\n\n" % links[0]['href']
+			else:
+				text = "Non-mobile: [%s](%s)\n\n" % (links[0]['text'], links[0]['href'])
 		else: # len(links) > 1
 			text = "Non-mobile:\n\n"
 			for link in links:
-				text += " * [%s](%s)\n" % (link)
+				if link['text'] == link['href'] and link[0][0:4] == 'http':
+					text += "* %s\n" % link['href']
+				else:
+					text += " * [%s](%s)\n" % (link['text'], link['href'])
 			text += "\n"
 		text += "^That's ^why ^I'm ^here, ^I ^don't ^judge ^you. ^PM ^/u/xl0 ^if ^I'm ^causing ^any ^trouble. [^WUT?](https://github.com/xl0/LittleHelperRobot/wiki/What's-this-all-about%3F)"
 
