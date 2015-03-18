@@ -8,7 +8,7 @@ import requests
 from littlehelper_config import *
 
 websites = [("m.wikipedia.org","wikipedia.org"),
-	("m.facebook.com", "facebook.com"),
+#	("m.facebook.com", "facebook.com"),
 	("amazon.com/gp/aw/d/","amazon.com/dp/")];
 
 
