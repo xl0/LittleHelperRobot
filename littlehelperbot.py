@@ -77,7 +77,7 @@ def got_one(comment):
 		else: # len(links) > 1
 			text = "Non-mobile:\n\n"
 			for link in links:
-				if link['text'] == link['href'] and link[0][0:4] == 'http':
+				if link['text'] == link['href'] and link['text'][0:4] == 'http':
 					text += "* %s\n" % link['href']
 				else:
 					text += " * [%s](%s)\n" % (link['text'], link['href'])
